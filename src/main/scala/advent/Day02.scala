@@ -26,7 +26,7 @@ object Day02 {
     val result = for {
       noun <- (0 to 99)
       verb <- (0 to 99)
-      patched = program.patch(1, List(noun), 1).patch(2, List(verb), 1)
+      patched = program.patch(1, List(noun, verb), 2)
       output = run(patched)
       if output(0) == target
     } yield (noun, verb)
@@ -38,9 +38,7 @@ object Day02 {
     (for {
       line <- input
       value <- line.split(',')
-    } yield value.toInt).toVector
-      .patch(1, List(12), 1)
-      .patch(2, List(2), 1)
+    } yield value.toInt).toVector.patch(1, List(12, 2), 2)
   }
 
   implicit class ExtString(x: String) {
