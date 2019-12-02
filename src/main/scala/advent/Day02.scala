@@ -30,23 +30,36 @@ object Day02 {
       output = run(patched)
       if output(0) == target
     } yield (noun, verb)
-    println(result)
     result(0)
   }
-  
-  def main (args: Array[String]): Unit = {
+
+  def readInput (): Program = {
     val input = Source.fromResource("day-02.txt").getLines()
-    val program = (for {
+    (for {
       line <- input
       value <- line.split(',')
     } yield value.toInt).toVector
       .patch(1, List(12), 1)
       .patch(2, List(2), 1)
-    
-    val output = run(program)
+  }
+
+  implicit class ExtString(x: String) {
+    def pad (to: Int): String =
+      if (x.size >= to) x
+      else ("0" ++ x) pad to
+  }
+
+  implicit class ExtInt(x: Int) {
+    def showTo (digits: Int): String =
+      x.toString.pad(digits)
+  }
+  
+  def main (args: Array[String]): Unit = {
+    val input = readInput()
+    val output = run(input)
     println(s"Problem 1: ${output(0)}")
 
-    val result2 = calculateInputFor(program, 19690720)
-    println(s"Problem 2: $result2")
+    val (noun, verb) = calculateInputFor(input, 19690720)
+    println(s"Problem 2: ${noun.showTo(2)}${verb.showTo(2)}")
   }
 }
