@@ -21,6 +21,18 @@ object Day02 {
         run(result, index + 4)
       }
   }
+
+  def calculateInputFor (program: Program, target: Int): (Int, Int) = {
+    val result = for {
+      noun <- (0 to 99)
+      verb <- (0 to 99)
+      patched = program.patch(1, List(noun), 1).patch(2, List(verb), 1)
+      output = run(patched)
+      if output(0) == target
+    } yield (noun, verb)
+    println(result)
+    result(0)
+  }
   
   def main (args: Array[String]): Unit = {
     val input = Source.fromResource("day-02.txt").getLines()
@@ -32,6 +44,9 @@ object Day02 {
       .patch(2, List(2), 1)
     
     val output = run(program)
-    println(output(0))
+    println(s"Problem 1: ${output(0)}")
+
+    val result2 = calculateInputFor(program, 19690720)
+    println(s"Problem 2: $result2")
   }
 }
