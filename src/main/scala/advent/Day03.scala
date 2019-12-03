@@ -13,9 +13,18 @@ object Day03 {
       case Point(x, y) => math.abs(x) + math.abs(y)
     }
 
-    println(distances)
-
     distances.min
+  }
+
+  def closestInSteps (a: Seq[String], b: Seq[String]): Int = {
+    val pathA = toPoints(a, Point(0, 0))
+    val pathB = toPoints(b, Point(0, 0))
+
+    val steps = pathA.intersect(pathB).tail map {
+      point => pathA.indexOf(point) + pathB.indexOf(point)
+    }
+
+    steps.min
   }
 
   private def toPoints (xs: Seq[String], start: Point): Seq[Point] = {
@@ -52,5 +61,8 @@ object Day03 {
     val (a, b) = readInput()
     val result1 = closestIntersection(a, b)
     println(s"Problem 1: $result1")
+
+    val result2 = closestInSteps(a, b)
+    println(s"Problem 2: $result2")
   }
 }
