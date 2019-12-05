@@ -17,6 +17,7 @@ object IntComputer {
     val instruction = parseInstruction(code, program, index)
     instruction match {
       case Instruction(99, _) => (program, outputs)
+      // addition
       case Instruction(1, List(a, b, _)) => {
         val valueA = getValue(index + 1, a, program)
         val valueB = getValue(index + 2, b, program)
@@ -25,6 +26,7 @@ object IntComputer {
         val result = program.patch(dest, List(value), 1)
         runExtended(result, index + 4, inputs, outputs)
       }
+      // product
       case Instruction(2, List(a, b, _)) => {
         val valueA = getValue(index + 1, a, program)
         val valueB = getValue(index + 2, b, program)
@@ -33,12 +35,14 @@ object IntComputer {
         val result = program.patch(dest, List(value), 1)
         runExtended(result, index + 4, inputs, outputs)
       }
+      // input
       case Instruction(3, _) => {
         val (input :: restInputs) = inputs
         val dest = program(index + 1)
         val result = program.patch(dest, List(input), 1)
         runExtended(result, index + 2, restInputs, outputs)
       }
+      // output
       case Instruction(4, _) => {
         val output = program(program(index + 1))
         runExtended(program, index + 2, inputs, outputs :+ output)

@@ -150,11 +150,9 @@ class IntComputerTest extends FunSuite {
   test("jump-if-false") {
     val input = Vector(3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9)
     val result = runExtended(input, inputs = List(1))
-    // assert(result._1 == Vector(3,12,6,12,15,1,13,14,13,4,13,99,1,1,1,9))
     assert(result._2 == List(1))
 
     val result2 = runExtended(input, inputs = List(0))
-    // assert(result2._1 == Vector(3,3,1105,0,9,1101,0,0,12,4,12,99,0))
     assert(result2._2 == List(0))
   }
 }
