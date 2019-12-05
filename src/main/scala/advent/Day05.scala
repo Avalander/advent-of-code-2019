@@ -18,9 +18,16 @@ object Day05 {
     println(s"Output: $output")
   }
 
+  def problem2 (program: Program): Unit = {
+    val inputs = List(5)
+    val (result, output) = runExtended(program, inputs = inputs)
+    println(s"Output: $output")
+  }
+
   def main (args: Array[String]): Unit = {
     val input = readInput()
 
     problem1(input)
+    problem2(input)
   }
 }

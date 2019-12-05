@@ -43,6 +43,42 @@ object IntComputer {
         val output = program(program(index + 1))
         runExtended(program, index + 2, inputs, outputs :+ output)
       }
+      // jump-if-true
+      case Instruction(5, List(a, b)) => {
+        val value = getValue(index + 1, a, program)
+        val nextIndex = getValue(index + 2, b, program)
+        if (value != 0) runExtended(program, nextIndex, inputs, outputs)
+        else runExtended(program, index + 3, inputs, outputs)
+      }
+      // jump-if-false
+      case Instruction(6, List(a, b)) => {
+        val value = getValue(index + 1, a, program)
+        val nextIndex = getValue(index + 2, b, program)
+        if (value == 0) runExtended(program, nextIndex, inputs, outputs)
+        else runExtended(program, index + 3, inputs, outputs)
+      }
+      // less-than
+      case Instruction(7, List(a, b, _)) => {
+        val valueA = getValue(index + 1, a, program)
+        val valueB = getValue(index + 2, b, program)
+        val dest = program(index + 3)
+        val value =
+          if (valueA < valueB) 1
+          else 0
+        val result = program.patch(dest, List(value), 1)
+        runExtended(result, index + 4, inputs, outputs)
+      }
+      // equal
+      case Instruction(8, List(a, b, _)) => {
+        val valueA = getValue(index + 1, a, program)
+        val valueB = getValue(index + 2, b, program)
+        val dest = program(index + 3)
+        val value =
+          if (valueA == valueB) 1
+          else 0
+        val result = program.patch(dest, List(value), 1)
+        runExtended(result, index + 4, inputs, outputs)
+      }
     }
   }
 
@@ -68,6 +104,10 @@ object IntComputer {
       case 2 => 3
       case 3 => 1
       case 4 => 1
+      case 5 => 2
+      case 6 => 2
+      case 7 => 3
+      case 8 => 3
       case 99 => 0
       case x => throw new MatchError(s"Code $code at index $i")
     }
