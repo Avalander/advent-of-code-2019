@@ -76,4 +76,12 @@ class Day06Test extends FunSuite {
       assert(result == 4)
     }
   }
+
+  test("hasChildNode") {
+    val input = Tree("A", List(
+      Tree("B", Nil)
+    ))
+
+    assert(hasChildNode(input, "B"))
+  }
 }

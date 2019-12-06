@@ -92,10 +92,9 @@ object Day06 {
     else {
       val nextNode = children.find(hasChildNode(_, to))
       nextNode match {
-        case None => {
-          println(tree)
-          total + 1
-        }
+        // None means to is direct descendant a child node
+        // need to figure out why hasChildNode doesn't find it.
+        case None => total + 1
         case Some(value) => jumpsFrom(value, to, total + 1)
       }
     }
