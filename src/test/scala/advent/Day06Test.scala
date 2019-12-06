@@ -35,4 +35,45 @@ class Day06Test extends FunSuite {
     val result = countNodes(tree)
     assert(result == 12)
   }
+
+  val input2 = List(
+    ("COM", "B"),
+    ("B", "C"),
+    ("C", "D"),
+    ("D", "E"),
+    ("E", "F"),
+    ("B", "G"),
+    ("G", "H"),
+    ("D", "I"),
+    ("E", "J"),
+    ("J", "K"),
+    ("K", "L"),
+    ("K", "YOU"),
+    ("I", "SAN")
+  )
+
+  trait WithTree2 {
+    val tree = makeTree(input2)
+  }
+
+  test("countOrbitJumps") {
+    new WithTree2 {
+      val result = countOrbitJumps(tree, "YOU", "SAN")
+      assert(result == 4)
+    }
+  }
+
+  test("findParentNode") {
+    val tree = makeTree(input2)
+    val Tree(node, _) = findParentNode(tree, "YOU", "SAN")
+    assert(node == "D")
+  }
+
+  test("jumpsFrom") {
+    new WithTree2 {
+      val parentNode = findParentNode(tree, "YOU", "SAN")
+      val result = jumpsFrom(parentNode, "YOU")
+      assert(result == 4)
+    }
+  }
 }
